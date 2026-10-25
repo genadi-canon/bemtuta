@@ -86,6 +86,7 @@ const he = {
     declined: "הלקוח בחר הצעה אחרת",
     withdrawn: "ביטלת את ההצעה",
     jobsDone: "עבודות",
+    full: "המשימה כבר קיבלה את המספר המרבי של הצעות.",
   },
   chat: { title: "צ'אט", placeholder: "כתוב הודעה…", send: "שלח" },
   review: {
@@ -226,6 +227,7 @@ const ru: Dict = {
     declined: "Заказчик выбрал другое предложение",
     withdrawn: "Вы отозвали предложение",
     jobsDone: "работ",
+    full: "Задание уже получило максимум предложений.",
   },
   chat: { title: "Чат", placeholder: "Сообщение…", send: "Отправить" },
   review: {

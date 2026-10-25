@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/session";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { fmtDateTime, fmtNis } from "@/lib/format";
-import { nameOf, type Area, type Category, type Message, type Offer, type ProviderProfile, type Review, type Task } from "@/lib/types";
+import { MAX_OFFERS, nameOf, type Area, type Category, type Message, type Offer, type ProviderProfile, type Review, type Task } from "@/lib/types";
 import { adminSetBlocked, cancelTask, chooseOffer, leaveReview, markDone, reportProblem, sendOffer, withdrawOffer } from "@/app/actions";
 import SubmitButton from "@/components/SubmitButton";
 import StatusBadge from "@/components/StatusBadge";
@@ -60,7 +60,8 @@ export default async function TaskPage({
   }
 
   const myOffer = offers.find((o) => o.provider_id === user.id);
-  const canOffer = !isCustomer && task.status === "open" && provider?.status === "approved" && !myOffer;
+  const isFull = task.offer_count >= MAX_OFFERS;
+  const canOffer = !isCustomer && task.status === "open" && provider?.status === "approved" && !myOffer && !isFull;
   const myReview = reviews.find((r) => r.author_id === user.id);
   const otherReview = reviews.find((r) => r.author_id !== user.id);
   const otherId = isCustomer ? task.chosen_provider_id : task.customer_id;
@@ -111,7 +112,7 @@ export default async function TaskPage({
       {isCustomer && task.status === "open" && (
         <section>
           <h2 className="h2">
-            {t.task.offers} ({offers.filter((o) => o.status === "sent").length})
+            {t.task.offers} ({offers.filter((o) => o.status === "sent").length}/{MAX_OFFERS})
           </h2>
           {offers.filter((o) => o.status === "sent").length === 0 && <p className="text-stone-500">{t.task.noOffers}</p>}
           <ul className="space-y-3">
@@ -168,6 +169,9 @@ export default async function TaskPage({
           </label>
           <SubmitButton className="btn w-full">{t.offer.send}</SubmitButton>
         </form>
+      )}
+      {!isCustomer && task.status === "open" && provider?.status === "approved" && !myOffer && isFull && (
+        <p className="note">{t.offer.full}</p>
       )}
       {myOffer && !isChosen && (
         <section className="card space-y-2">

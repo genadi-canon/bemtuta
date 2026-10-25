@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/session";
 import { fmtDateTime, fmtNis } from "@/lib/format";
 import StatusBadge from "@/components/StatusBadge";
-import { nameOf, type Area, type Category, type Offer, type Task } from "@/lib/types";
+import { MAX_OFFERS, nameOf, type Area, type Category, type Offer, type Task } from "@/lib/types";
 
 export default async function JobsPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const { supabase, user, provider, lang, t } = await requireUser("/jobs");
@@ -37,6 +37,7 @@ export default async function JobsPage({ searchParams }: { searchParams: Promise
       .from("tasks")
       .select("*")
       .eq("status", "open")
+      .lt("offer_count", MAX_OFFERS)
       .neq("customer_id", user.id)
       .in("category_id", (myCats ?? []).map((r) => r.category_id))
       .in("area_id", (myAreas ?? []).map((r) => r.area_id))

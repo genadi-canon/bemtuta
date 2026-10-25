@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ r
 
       <section className="grid grid-cols-2 gap-3">
         {(categories as Category[] | null)?.map((c) => (
-          <Link key={c.id} href={`/tasks/new?category=${c.id}`} className="card flex flex-col items-center gap-2 py-6 text-center hover:border-teal-600">
+          <Link key={c.id} href={`/tasks/new?category=${c.id}`} className="card flex flex-col items-center gap-2 py-6 text-center hover:border-teal-600 odd:last:col-span-2">
             <span className="text-3xl">{c.icon}</span>
             <span className="text-sm font-medium">{nameOf(c, lang)}</span>
           </Link>

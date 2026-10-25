@@ -44,9 +44,13 @@ export type Task = {
   chosen_offer_id: string | null;
   chosen_provider_id: string | null;
   final_price: number | null;
+  offer_count: number;
   created_at: string;
   done_at: string | null;
 };
+
+// Matches public.max_offers() in the database.
+export const MAX_OFFERS = 5;
 
 export type Offer = {
   id: string;
