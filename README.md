@@ -28,7 +28,7 @@ Database checks: `npm run test:db` runs `supabase/tests/flow.sql` (task lifecycl
 1. Create a Supabase project. Run `npx supabase link` and `npx supabase db push`.
 2. In Supabase → Authentication → Phone: enable phone sign-in and connect an SMS provider (Twilio).
 3. Create a Vercel project from this repository and set the variables from `.env.example`.
-4. `vercel.json` runs `/api/cron` hourly: expires stale tasks and alerts admins about tasks without offers.
+4. `vercel.json` runs `/api/cron` once a day (the free Vercel plan limit): expires stale tasks and alerts admins about tasks without offers. The admin page always lists tasks with no offer after an hour.
 
 ## Flow
 
