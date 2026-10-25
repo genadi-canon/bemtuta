@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# במטותא · Bematuta
 
-## Getting Started
+Marketplace that connects people who need a small job done (furniture assembly, small moves, cleaning, sitting) with verified local providers. Pilot: Bat Yam, Hebrew and Russian.
 
-First, run the development server:
+Stack: Next.js 15 (App Router, server actions) + Supabase (Postgres, phone auth, storage, realtime). Notifications through Twilio WhatsApp/SMS when configured.
+
+## Local development
 
 ```bash
+npm install
+npx supabase start            # needs Docker; applies supabase/migrations
+cp .env.example .env.local    # fill from `npx supabase status -o env`
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Test phone numbers (code `123456`, no SMS sent) are in `supabase/config.toml` under `[auth.sms.test_otp]`: 050-0000001, 050-0000002, 050-0000003.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Make yourself an admin:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sql
+update profiles set is_admin = true where id = '<your user id>';
+```
 
-## Learn More
+Database checks: `npm run test:db` runs `supabase/tests/flow.sql` (task lifecycle and row-level security) against the local database.
 
-To learn more about Next.js, take a look at the following resources:
+## Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a Supabase project. Run `npx supabase link` and `npx supabase db push`.
+2. In Supabase → Authentication → Phone: enable phone sign-in and connect an SMS provider (Twilio).
+3. Create a Vercel project from this repository and set the variables from `.env.example`.
+4. `vercel.json` runs `/api/cron` hourly: expires stale tasks and alerts admins about tasks without offers.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Flow
 
-## Deploy on Vercel
+Customer posts a task → matching approved providers are notified → providers send offers → customer chooses one → the address and chat open for the two of them → either side marks it done → both rate each other.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Payment is outside the app during the pilot.
