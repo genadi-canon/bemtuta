@@ -52,5 +52,5 @@ update public.categories
  where id = 'moving';
 
 insert into public.categories (id, name_he, name_ru, icon, requires_police_cert, sort) values
-  ('car', 'רכב: נהג תורן, טרמפים, חילוץ', 'Авто: трезвый водитель, поездки, помощь на дороге', '🚗', false, 5)
+  ('car', 'רכב: נהג תורן, טרמפים בהשתתפות בדלק, חילוץ', 'Авто: трезвый водитель, попутки за бензин, помощь на дороге', '🚗', false, 5)
 on conflict (id) do nothing;
