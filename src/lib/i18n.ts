@@ -88,6 +88,12 @@ const he = {
     jobsDone: "עבודות",
   },
   chat: { title: "צ'אט", placeholder: "כתוב הודעה…", send: "שלח" },
+  install: {
+    title: "במטותא כאפליקציה בטלפון",
+    button: "התקנה במסך הבית",
+    ios: "בספארי: לוחצים על כפתור השיתוף ואז \"הוסף למסך הבית\".",
+    dismiss: "לא עכשיו",
+  },
   review: {
     title: "דירוג",
     rateProvider: "איך היה נותן השירות?",
@@ -228,6 +234,12 @@ const ru: Dict = {
     jobsDone: "работ",
   },
   chat: { title: "Чат", placeholder: "Сообщение…", send: "Отправить" },
+  install: {
+    title: "Bematuta как приложение на телефоне",
+    button: "Установить на экран",
+    ios: "В Safari: нажмите «Поделиться», затем «На экран „Домой“».",
+    dismiss: "Не сейчас",
+  },
   review: {
     title: "Отзыв",
     rateProvider: "Как вам исполнитель?",
